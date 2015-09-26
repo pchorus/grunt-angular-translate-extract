@@ -1,3 +1,4 @@
+# NOT READY TO USE!
 # grunt-angular-translate-extract
 
 > Grunt plugin for extracting angular-translate texts to POT file.
