@@ -1,0 +1,41 @@
+{
+  "name": "grunt-angular-translate-extract",
+  "description": "Grunt plugin for extracting angular-translate texts to POT file.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/pchorus/grunt-angular-translate-extract",
+  "author": {
+    "name": "Pascal Chorus",
+    "email": "p.chorus@me.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pchorus/grunt-angular-translate-extract"
+  },
+  "bugs": {
+    "url": "https://github.com/pchorus/grunt-angular-translate-extract/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/pchorus/grunt-angular-translate-extract/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.9.2",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-nodeunit": "^0.3.3",
+    "grunt": "~0.4.5"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.5"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
