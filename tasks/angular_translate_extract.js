@@ -22,16 +22,13 @@ module.exports = function (grunt) {
 
     // Declare all var from configuration
     var files = this.files,
-      jsonSrc = _file.expand(this.data.jsonSrc || []),
-      jsonSrcName = _.union(this.data.jsonSrcName || [], ['label']),
       interpolation = this.data.interpolation || {startDelimiter: '{{', endDelimiter: '}}'},
-      namespace = this.data.namespace || false,
       customRegex = _.isArray(this.data.customRegex) ? this.data.customRegex : [];
 
     // Use to escape some char into regex patterns
     var escapeRegExp = function (str) {
       return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-    }
+    };
 
     // Extract regex strings from content and feed results object
     var _extractTranslation = function (regexName, regex, content, results) {
@@ -53,6 +50,7 @@ module.exports = function (grunt) {
               var tmp = r[1];
               r[1] = r[2];
               r[2] = tmp;
+              /* falls through */
             case 'HtmlDirectivePluralLast':
               evalString = eval(r[2]);
               if (_.isArray(evalString) && evalString.length >= 2) {
@@ -190,41 +188,6 @@ module.exports = function (grunt) {
         }
       }
       _file.write(file.dest, output);
-    });
-
-    /**
-     * Recurse an object to retrieve as an array all the value of named parameters
-     * INPUT: {"myLevel1": [{"val": "myVal1", "label": "MyLabel1"}, {"val": "myVal2", "label": "MyLabel2"}], "myLevel12": {"new": {"label": "myLabel3é}}}
-     * OUTPUT: ["MyLabel1", "MyLabel2", "MyLabel3"]
-     * @param data
-     * @returns {Array}
-     * @private
-     */
-    var _recurseObject = function (data) {
-      var currentArray = new Array();
-      if (_.isObject(data) || _.isArray(data['attr'])) {
-        for (var attr in data) {
-          if (_.isString(data[attr]) && _.indexOf(jsonSrcName, attr) !== -1) {
-            currentArray.push(data[attr]);
-          } else if (_.isObject(data[attr]) || _.isArray(data['attr'])) {
-            var recurse = _recurseObject(data[attr]);
-            currentArray = _.union(currentArray, recurse);
-          }
-        }
-      }
-      return currentArray;
-    };
-
-    // Parse all extra files to extra
-    jsonSrc.forEach(function (file) {
-      _log.debug("Process extra file: " + file);
-      var content = _file.readJSON(file);
-      var recurseData = _recurseObject(content);
-      for (var i in recurseData) {
-        if (_.isString(recurseData[i])) {
-          results[ recurseData[i].trim() ] = '';
-        }
-      }
     });
   });
 };

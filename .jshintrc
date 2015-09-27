@@ -1,4 +1,6 @@
 {
+  "evil": true, // TODO
+  "loopfunc": true, // TODO
   "curly": true,
   "eqeqeq": true,
   "immed": true,
