@@ -34,18 +34,12 @@ module.exports = function(grunt) {
       },
       default_options: {
         lang:    ['fr_FR'],
-        jsonSrc: [ 'config/*.json' ],
-        src:     ['src/app/**/*.tpl.html'],
-        suffix:  '.json',
-        dest:    'src/assets/i18n',
-        defautLang: 'en_US',
         files: {
           'tmp/default_options': ['test/fixtures/example.html', 'test/fixtures/example.js']
         }
       },
       custom_options: {
         lang:    ['fr_FR'],
-        jsonSrc: [ 'config/*.json' ],
         src:     ['src/app/**/*.tpl.html'],
         suffix:  '.json',
         dest:    'src/assets/i18n',
@@ -79,7 +73,7 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'angular_translate_extract', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'angular_translate_extract:default_options', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);

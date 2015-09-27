@@ -28,7 +28,8 @@ module.exports = function (grunt) {
     }
 
     // Declare all var from configuration
-    var files = _file.expand(this.data.src),
+    var //files = _file.expand(this.data.src),
+      filesNew = this.files,
       dest = this.data.dest || '.',
       jsonSrc = _file.expand(this.data.jsonSrc || []),
       jsonSrcName = _.union(this.data.jsonSrcName || [], ['label']),
@@ -139,8 +140,6 @@ module.exports = function (grunt) {
               regexName !== "JavascriptServiceArrayDoubleQuote") {
             results[ translationKey ] = translationDefaultValue;
           }
-
-
         }
       }
     };
@@ -170,6 +169,61 @@ module.exports = function (grunt) {
       regexs['others_' + key] = regex;
     });
 
+    function processFile(file, results) {
+
+      _log.debug("Process file: " + file);
+      var content = _file.read(file), _regex;
+
+      // Execute all regex defined at the top of this file
+      for (var i in regexs) {
+        _regex = new RegExp(regexs[i], "gi");
+        switch (i) {
+          // Case filter HTML simple/double quoted
+          case "HtmlFilterSimpleQuote":
+          case "HtmlFilterDoubleQuote":
+          case "HtmlDirective":
+          case "HtmlDirectivePluralLast":
+          case "HtmlDirectivePluralFirst":
+          case "JavascriptFilterSimpleQuote":
+          case "JavascriptFilterDoubleQuote":
+            // Match all occurences
+            var matches = content.match(_regex);
+            if (_.isArray(matches) && matches.length) {
+              // Through each matches, we'll execute regex to get translation key
+              for (var index in matches) {
+                if (matches[index] !== "") {
+                  _log.writeln(matches[index]);
+                  _extractTranslation(i, _regex, matches[index], results);
+                }
+              }
+
+            }
+            break;
+          // Others regex
+          default:
+            _extractTranslation(i, _regex, content, results);
+
+        }
+      }
+    }
+
+    filesNew.forEach(function (file) {
+      var results = {}, output = '';
+      file.src.forEach(function (fileSrc) {
+        _log.writeln('Processing file: ' + fileSrc);
+        processFile(fileSrc, results);
+      });
+
+      _log.writeln('Creating file: ' + file.dest);
+
+      for (var key in results) {
+        if (results.hasOwnProperty(key)) {
+          output += 'msgid "' + key + '"\n';
+          output += 'msgstr ""\n\n';
+        }
+      }
+      _file.write(file.dest, output);
+    });
 
     /**
      * Recurse an object to retrieve as an array all the value of named parameters
