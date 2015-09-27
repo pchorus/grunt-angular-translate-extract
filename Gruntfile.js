@@ -33,20 +33,11 @@ module.exports = function(grunt) {
       options: {
       },
       default_options: {
-        lang:    ['fr_FR'],
         files: {
           'tmp/default_options': ['test/fixtures/example.html', 'test/fixtures/example.js']
         }
       },
       custom_options: {
-        lang:    ['fr_FR'],
-        src:     ['src/app/**/*.tpl.html'],
-        suffix:  '.json',
-        dest:    'src/assets/i18n',
-        defautLang: 'en_US',
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
-        }
       }
     },
 
@@ -65,15 +56,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-bump');
-  grunt.loadNpmTasks('grunt-markdox');
-
-
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'angular_translate_extract:default_options', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'angular_translate_extract', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);

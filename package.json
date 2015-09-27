@@ -17,7 +17,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/pchorus/grunt-angular-translate-extract/blob/master/LICENSE-MIT"
+      "url": "https://github.com/pchorus/grunt-angular-translate-extract/blob/master/LICENSE"
     }
   ],
   "engines": {
@@ -29,22 +29,17 @@
 
   "devDependencies": {
     "grunt": "~0.4.0",
-    "grunt-bump": "0.0.13",
     "grunt-contrib-clean": "^0.5.0",
-    "grunt-contrib-copy": "^0.5.0",
     "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-nodeunit": "~0.1.2",
-    "grunt-markdox": "^0.1.0"
+    "grunt-contrib-nodeunit": "~0.1.2"
   },
 
   "dependencies": {
-    "flat": "^1.2.0",
-    "lodash": "~2.4.1",
-    "json-stable-stringify": "^1.0.0"
+    "lodash": "~2.4.1"
   },
 
   "peerDependencies": {
-    "grunt": "~0.4.5"
+    "grunt": "~0.4.0"
   },
   "keywords": [
     "gruntplugin"
