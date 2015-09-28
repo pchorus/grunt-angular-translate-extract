@@ -35,5 +35,14 @@ exports.angular_translate_extract = {
     test.equal(actual, expected, 'should describe what the default behavior is.');
 
     test.done();
+  },
+  custom_interpolation: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/custom_interpolation');
+    var expected = grunt.file.read('test/expected/custom_interpolation');
+    test.equal(actual, expected, 'should handle custom interpolation delimiters correctly.');
+
+    test.done();
   }
 };

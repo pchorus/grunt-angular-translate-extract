@@ -30,14 +30,19 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     angular_translate_extract: {
-      options: {
-      },
       default_options: {
         files: {
           'tmp/default_options': ['test/fixtures/example.html', 'test/fixtures/example.js']
         }
       },
-      custom_options: {
+      custom_interpolation: {
+        interpolation: {
+          startDelimiter: '[[',
+          endDelimiter: ']]'
+        },
+        files: {
+          'tmp/custom_interpolation': ['test/fixtures/example.html', 'test/fixtures/example.js']
+        }
       }
     },
 
