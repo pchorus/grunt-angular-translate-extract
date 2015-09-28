@@ -44,5 +44,15 @@ exports.angular_translate_extract = {
     test.equal(actual, expected, 'should handle custom interpolation delimiters correctly.');
 
     test.done();
+  },
+  custom_regex: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/custom_regex');
+    var expected = grunt.file.read('test/expected/custom_regex');
+    test.equal(actual, expected, 'should handle custom regex correctly.');
+
+    test.done();
   }
+
 };

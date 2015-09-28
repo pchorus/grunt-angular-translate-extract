@@ -43,6 +43,12 @@ module.exports = function(grunt) {
         files: {
           'tmp/custom_interpolation': ['test/fixtures/example.html', 'test/fixtures/example.js']
         }
+      },
+      custom_regex: {
+        customRegex: ['\\$translate\\s*:\\s*\'((?:\\\\.|[^\'\\\\])*)\''],
+        files: {
+          'tmp/custom_regex': ['test/fixtures/custom_regex.js']
+        }
       }
     },
 
