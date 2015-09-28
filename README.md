@@ -26,9 +26,8 @@ In your project's Gruntfile, add a section named `angular_translate_extract` to 
 grunt.initConfig({
   angular_translate_extract: {
     default_options: {
-      customRegex: ['\\$translate\\s*:\\s*\'((?:\\\\.|[^\'\\\\])*)\''],
       files: {
-        'tmp/custom_regex': ['test/fixtures/custom_regex.js']
+        'all_texts.pot': ['**/*.js', '**/*.html']
       }
     },
   },
