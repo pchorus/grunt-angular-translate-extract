@@ -25,11 +25,11 @@ In your project's Gruntfile, add a section named `angular_translate_extract` to 
 ```js
 grunt.initConfig({
   angular_translate_extract: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
+    default_options: {
+      customRegex: ['\\$translate\\s*:\\s*\'((?:\\\\.|[^\'\\\\])*)\''],
+      files: {
+        'tmp/custom_regex': ['test/fixtures/custom_regex.js']
+      }
     },
   },
 });
@@ -37,48 +37,71 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+#### interpolation
+Type: `Object`
+Default value: `{ startDelimiter: '{{', endDelimiter: '}}' }`
 
-A string value that is used to do something with whatever.
+Example: `{ startDelimiter: '[[', endDelimiter: ']]' }`
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+Use these interpolation delimiters instead of `{{` and `}}`. Should match the used interpolation delimiters in your angular application.
 
-A string value that is used to do something else with whatever else.
+#### customRegex
+Type: `Array<String>`
+Default value: `[]`
+
+Example: `customRegex: ['\\$translate\\s*:\\s*\'((?:\\\\.|[^\'\\\\])*)\'']`
+
+An array containing custom regular expressions. Texts matching these expressions are extracted in addition to the usual extracted texts.
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+In this example, the default options are used to extract texts to a pot file. All texts in *.js and *.html files are extracted to the file 'all_texts.pot'
 
 ```js
 grunt.initConfig({
   angular_translate_extract: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+    default_options: {
+      files: {
+        'all_texts.pot': ['**/*.js', '**/*.html']
+      }
     },
   },
 });
 ```
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+#### Custom interpolation
+In this example, custom interpolation delimiters are used. So, from a file containing `[[ 'text' | translate ]]`, "text" will be extracted.
 
 ```js
 grunt.initConfig({
   angular_translate_extract: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
+    default_options: {
+      interpolation: {
+        startDelimiter: '[[',
+        endDelimiter: ']]'
+      },
+      files: {
+        'custom_interpolation_texts.pot': ['**/*.js', '**/*.html']
+      }
+    }
+  }
+});
+```
+
+#### Custom regular expression
+In this example, a custom regular expression is given. So, from a file containing `$translate: 'text'`, "text" will be extracted.
+
+```js
+grunt.initConfig({
+  angular_translate_extract: {
+    default_options: {
+      customRegex: ['\\$translate\\s*:\\s*\'((?:\\\\.|[^\'\\\\])*)\''],
+      files: {
+        'custom_regex_texts.pot': ['**/*.js', '**/*.html']
+      }
+    }
+  }
 });
 ```
 
