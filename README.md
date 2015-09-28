@@ -1,4 +1,4 @@
-# grunt-angular-translate-extract
+# grunt-angular-translate-extract [![Build Status](https://travis-ci.org/pchorus/grunt-angular-translate-extract.svg?branch=master)](https://travis-ci.org/pchorus/grunt-angular-translate-extract)
 
 > Grunt plugin for extracting angular-translate texts to POT file.
 
