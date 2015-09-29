@@ -172,8 +172,19 @@ module.exports = function (grunt) {
       }
     }
 
+    function getPotFileHeader() {
+      var header = 'msgid ""\n';
+      
+      header += 'msgstr ""\n';
+      header += '"Content-Type: text/plain; charset=UTF-8\\n"';
+      header += '"Content-Transfer-Encoding: 8bit\\n"';
+      header += '"Project-Id-Version: \\n"';
+    }
+
     files.forEach(function (file) {
-      var results = {}, output = '';
+      var results = {}, output = getPotFileHeader();
+
+
       file.src.forEach(function (fileSrc) {
         _log.debug('Process file: ' + fileSrc);
         processFile(fileSrc, results);
