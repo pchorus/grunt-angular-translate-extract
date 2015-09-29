@@ -176,9 +176,11 @@ module.exports = function (grunt) {
       var header = 'msgid ""\n';
       
       header += 'msgstr ""\n';
-      header += '"Content-Type: text/plain; charset=UTF-8\\n"';
-      header += '"Content-Transfer-Encoding: 8bit\\n"';
-      header += '"Project-Id-Version: \\n"';
+      header += '"Content-Type: text/plain; charset=UTF-8\\n"\n';
+      header += '"Content-Transfer-Encoding: 8bit\\n"\n';
+      header += '"Project-Id-Version: \\n"\n';
+
+      return header;
     }
 
     files.forEach(function (file) {
