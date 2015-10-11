@@ -73,7 +73,9 @@ module.exports = function (grunt) {
       for (var key in results) {
         if (results.hasOwnProperty(key)) {
           if (extractSourceFiles) {
-            output += '\n#: ' + results[key].file + ':' + results[key].line;
+            _.forEach(results[key].sourceFiles, function (sourceFile) {
+              output += '\n#: ' + sourceFile.file + ':' + sourceFile.line;
+            });
           }
           output += '\nmsgid "' + key + '"\n';
           output += 'msgstr ""\n';
@@ -199,22 +201,40 @@ module.exports = function (grunt) {
 
               key.forEach(function(item){
                 item = item.replace(/\\\"/g, '"').trim();
-                results[item] = {
-                  defaultValue: translationDefaultValue,
-                  file: file,
-                  line: lineNumber
-                };
+                if (results[item]) {
+                  results[item].sourceFiles.push({
+                    file: file,
+                    line: lineNumber
+                  });
+                } else {
+                  results[item] = {
+                    defaultValue: translationDefaultValue,
+                    sourceFiles: [{
+                      file: file,
+                      line: lineNumber
+                    }]
+                  };
+                }
               });
               break;
           }
 
           if( regexName !== "JavascriptServiceArraySimpleQuote" &&
               regexName !== "JavascriptServiceArrayDoubleQuote") {
-            results[ translationKey ] = {
-              defaultValue: translationDefaultValue,
-              file: file,
-              line: lineNumber
-            };
+            if (results[translationKey]) {
+              results[translationKey].sourceFiles.push({
+                file: file,
+                line: lineNumber
+              });
+            } else {
+              results[ translationKey ] = {
+                defaultValue: translationDefaultValue,
+                sourceFiles: [{
+                  file: file,
+                  line: lineNumber
+                }]
+              };
+            }
           }
         }
       }
