@@ -60,8 +60,83 @@ module.exports = function (grunt) {
       regexs['others_' + key] = regex;
     });
 
+    // process each file in the configuration
+    files.forEach(function (file) {
+      var results = {}, output = getPotFileHeader();
+
+      file.src.forEach(function (fileSrc) {
+        processFile(fileSrc, results);
+      });
+
+      _log.writeln('Create file: ' + file.dest);
+
+      for (var key in results) {
+        if (results.hasOwnProperty(key)) {
+          if (extractSourceFiles) {
+            output += '\n#: ' + results[key].file + ':' + results[key].line;
+          }
+          output += '\nmsgid "' + key + '"\n';
+          output += 'msgstr ""\n';
+        }
+      }
+      _file.write(file.dest, output);
+    });
+
+    function getPotFileHeader() {
+      var header = 'msgid ""\n';
+      
+      header += 'msgstr ""\n';
+      header += '"Content-Type: text/plain; charset=UTF-8\\n"\n';
+      header += '"Content-Transfer-Encoding: 8bit\\n"\n';
+      header += '"Project-Id-Version: \\n"\n';
+
+      return header;
+    }
+
+    function processFile(file, results) {
+      _log.debug("Process file: " + file);
+      var content = _file.read(file), _regex,
+        j,
+        lines;
+
+      // Execute all regex defined at the top of this file
+      for (var i in regexs) {
+        _regex = new RegExp(regexs[i], "gi");
+        switch (i) {
+          // Case filter HTML simple/double quoted
+          case "HtmlFilterSimpleQuote":
+          case "HtmlFilterDoubleQuote":
+          case "HtmlDirective":
+          case "HtmlDirectivePluralLast":
+          case "HtmlDirectivePluralFirst":
+          case "JavascriptFilterSimpleQuote":
+          case "JavascriptFilterDoubleQuote":
+            // Match all occurences
+            lines = content.split('\n');
+            for (j = 0; j < lines.length; j += 1) {
+              var matches = lines[j].match(_regex);
+              if (_.isArray(matches) && matches.length) {
+                // Through each matches, we'll execute regex to get translation key
+                for (var index in matches) {
+                  if (matches[index] !== "") {
+                    _extractTranslation(i, _regex, matches[index], file, j+1, results);
+                  }
+                }
+              }
+            }
+            break;
+          // Others regex
+          default:
+            lines = content.split('\n');
+            for (j = 0; j < lines.length; j += 1) {
+              _extractTranslation(i, _regex, lines[j], file, j+1, results);
+            }
+        }
+      }
+    }
+
     // Extract regex strings from content and feed results object
-    var _extractTranslation = function (regexName, regex, content, file, lineNumber, results) {
+    function _extractTranslation(regexName, regex, content, file, lineNumber, results) {
       var r;
       _log.debug("---------------------------------------------------------------------------------------------------");
       _log.debug('Process extraction with regex : "' + regexName + '"');
@@ -146,81 +221,7 @@ module.exports = function (grunt) {
           }
         }
       }
-    };
-
-    function processFile(file, results) {
-      _log.debug("Process file: " + file);
-      var content = _file.read(file), _regex,
-        j,
-        lines;
-
-      // Execute all regex defined at the top of this file
-      for (var i in regexs) {
-        _regex = new RegExp(regexs[i], "gi");
-        switch (i) {
-          // Case filter HTML simple/double quoted
-          case "HtmlFilterSimpleQuote":
-          case "HtmlFilterDoubleQuote":
-          case "HtmlDirective":
-          case "HtmlDirectivePluralLast":
-          case "HtmlDirectivePluralFirst":
-          case "JavascriptFilterSimpleQuote":
-          case "JavascriptFilterDoubleQuote":
-            // Match all occurences
-            lines = content.split('\n');
-            for (j = 0; j < lines.length; j += 1) {
-              var matches = lines[j].match(_regex);
-              if (_.isArray(matches) && matches.length) {
-                // Through each matches, we'll execute regex to get translation key
-                for (var index in matches) {
-                  if (matches[index] !== "") {
-                    _extractTranslation(i, _regex, matches[index], file, j+1, results);
-                  }
-                }
-              }
-            }
-            break;
-          // Others regex
-          default:
-            lines = content.split('\n');
-            for (j = 0; j < lines.length; j += 1) {
-              _extractTranslation(i, _regex, lines[j], file, j+1, results);
-            }
-        }
-      }
     }
 
-    function getPotFileHeader() {
-      var header = 'msgid ""\n';
-      
-      header += 'msgstr ""\n';
-      header += '"Content-Type: text/plain; charset=UTF-8\\n"\n';
-      header += '"Content-Transfer-Encoding: 8bit\\n"\n';
-      header += '"Project-Id-Version: \\n"\n';
-
-      return header;
-    }
-
-    // process each file in the configuration
-    files.forEach(function (file) {
-      var results = {}, output = getPotFileHeader();
-
-      file.src.forEach(function (fileSrc) {
-        processFile(fileSrc, results);
-      });
-
-      _log.writeln('Create file: ' + file.dest);
-
-      for (var key in results) {
-        if (results.hasOwnProperty(key)) {
-          if (extractSourceFiles) {
-            output += '\n#: ' + results[key].file + ':' + results[key].line;
-          }
-          output += '\nmsgid "' + key + '"\n';
-          output += 'msgstr ""\n';
-        }
-      }
-      _file.write(file.dest, output);
-    });
   });
 };
