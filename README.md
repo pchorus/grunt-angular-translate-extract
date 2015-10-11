@@ -36,6 +36,27 @@ grunt.initConfig({
 
 ### Options
 
+#### extractSourceFiles
+Type: `Boolean`
+Default value: `true`
+
+Example: `extractSourceFiles: false`
+
+Decide wether the source files containing the text should be extracted or not.
+
+Output example with source files:
+```
+#: test/fixtures/example.html:8
+msgid "Filter custom interpolation"
+msgstr ""
+```
+
+Output example without source files:
+```
+msgid "Filter custom interpolation"
+msgstr ""
+```
+
 #### interpolation
 Type: `Object`
 Default value: `{ startDelimiter: '{{', endDelimiter: '}}' }`
@@ -108,4 +129,15 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+### 0.4.0
+New option 'extractSourceFiles'.
+Breaking change: Source files are extracted to output pot file now. If you don't want that, you have to add `extractSourceFiles: false` to your options.
+
+### 0.3.0
+POT file header added to output file.
+
+### 0.2.0
+Creating POT file containing texts used in source code with angular-translate.
+
+### 0.1.0
+First experimental version.
