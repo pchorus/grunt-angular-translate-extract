@@ -4,5 +4,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
+#: test/fixtures/custom_regex.js:4
 msgid "translateText"
 msgstr ""

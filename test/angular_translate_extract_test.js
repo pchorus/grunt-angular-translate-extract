@@ -32,7 +32,7 @@ exports.angular_translate_extract = {
 
     var actual = grunt.file.read('tmp/default_options');
     var expected = grunt.file.read('test/expected/default_options');
-    test.equal(actual, expected, 'should describe what the default behavior is.');
+    test.equal(actual, expected, 'should extract texts correctly.');
 
     test.done();
   },
@@ -53,6 +53,14 @@ exports.angular_translate_extract = {
     test.equal(actual, expected, 'should handle custom regex correctly.');
 
     test.done();
-  }
+  },
+  no_source_file_output: function(test) {
+    test.expect(1);
 
+    var actual = grunt.file.read('tmp/no_source_file_output');
+    var expected = grunt.file.read('test/expected/no_source_file_output');
+    test.equal(actual, expected, 'should extract texts without source file info.');
+
+    test.done();
+  }
 };

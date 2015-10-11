@@ -23,7 +23,12 @@ module.exports = function (grunt) {
     // Declare all var from configuration
     var files = this.files,
       interpolation = this.data.interpolation || {startDelimiter: '{{', endDelimiter: '}}'},
-      customRegex = _.isArray(this.data.customRegex) ? this.data.customRegex : [];
+      customRegex = _.isArray(this.data.customRegex) ? this.data.customRegex : [],
+      extractSourceFiles = this.data.extractSourceFiles;
+
+    if (extractSourceFiles === undefined) {
+      extractSourceFiles = true;
+    }
 
     // Use to escape some char into regex patterns
     var escapeRegExp = function (str) {
@@ -56,7 +61,7 @@ module.exports = function (grunt) {
     });
 
     // Extract regex strings from content and feed results object
-    var _extractTranslation = function (regexName, regex, content, results) {
+    var _extractTranslation = function (regexName, regex, content, file, lineNumber, results) {
       var r;
       _log.debug("---------------------------------------------------------------------------------------------------");
       _log.debug('Process extraction with regex : "' + regexName + '"');
@@ -122,23 +127,32 @@ module.exports = function (grunt) {
 
               key.forEach(function(item){
                 item = item.replace(/\\\"/g, '"').trim();
-                results[item] = translationDefaultValue;
+                results[item] = {
+                  defaultValue: translationDefaultValue,
+                  file: file,
+                  line: lineNumber
+                };
               });
               break;
           }
 
           if( regexName !== "JavascriptServiceArraySimpleQuote" &&
               regexName !== "JavascriptServiceArrayDoubleQuote") {
-            results[ translationKey ] = translationDefaultValue;
+            results[ translationKey ] = {
+              defaultValue: translationDefaultValue,
+              file: file,
+              line: lineNumber
+            };
           }
         }
       }
     };
 
     function processFile(file, results) {
-
       _log.debug("Process file: " + file);
-      var content = _file.read(file), _regex;
+      var content = _file.read(file), _regex,
+        j,
+        lines;
 
       // Execute all regex defined at the top of this file
       for (var i in regexs) {
@@ -153,21 +167,25 @@ module.exports = function (grunt) {
           case "JavascriptFilterSimpleQuote":
           case "JavascriptFilterDoubleQuote":
             // Match all occurences
-            var matches = content.match(_regex);
-            if (_.isArray(matches) && matches.length) {
-              // Through each matches, we'll execute regex to get translation key
-              for (var index in matches) {
-                if (matches[index] !== "") {
-                  _extractTranslation(i, _regex, matches[index], results);
+            lines = content.split('\n');
+            for (j = 0; j < lines.length; j += 1) {
+              var matches = lines[j].match(_regex);
+              if (_.isArray(matches) && matches.length) {
+                // Through each matches, we'll execute regex to get translation key
+                for (var index in matches) {
+                  if (matches[index] !== "") {
+                    _extractTranslation(i, _regex, matches[index], file, j+1, results);
+                  }
                 }
               }
-
             }
             break;
           // Others regex
           default:
-            _extractTranslation(i, _regex, content, results);
-
+            lines = content.split('\n');
+            for (j = 0; j < lines.length; j += 1) {
+              _extractTranslation(i, _regex, lines[j], file, j+1, results);
+            }
         }
       }
     }
@@ -195,6 +213,9 @@ module.exports = function (grunt) {
 
       for (var key in results) {
         if (results.hasOwnProperty(key)) {
+          if (extractSourceFiles) {
+            output += '\n#: ' + results[key].file + ':' + results[key].line;
+          }
           output += '\nmsgid "' + key + '"\n';
           output += 'msgstr ""\n';
         }

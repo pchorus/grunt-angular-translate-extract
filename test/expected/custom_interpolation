@@ -4,17 +4,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
+#: test/fixtures/example.html:8
 msgid "Filter custom interpolation"
 msgstr ""
 
+#: test/fixtures/example.html:4
 msgid "Directive, text in element's content"
 msgstr ""
 
+#: test/fixtures/example.html:1
 msgid "Directive, text in attribute"
 msgstr ""
 
+#: test/fixtures/example.js:3
 msgid "translate text"
 msgstr ""
 
+#: test/fixtures/example.js:2
 msgid "translate.instant"
 msgstr ""

@@ -35,6 +35,12 @@ module.exports = function(grunt) {
           'tmp/default_options': ['test/fixtures/example.html', 'test/fixtures/example.js']
         }
       },
+      no_source_file_output: {
+        extractSourceFiles: false,
+        files: {
+          'tmp/no_source_file_output': ['test/fixtures/example.html', 'test/fixtures/example.js']
+        }
+      },
       custom_interpolation: {
         interpolation: {
           startDelimiter: '[[',
