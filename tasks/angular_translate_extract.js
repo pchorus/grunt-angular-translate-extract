@@ -102,18 +102,18 @@ module.exports = function (grunt) {
       // Execute all regex defined at the top of this file
       for (var i in regexs) {
         _regex = new RegExp(regexs[i], "gi");
-        switch (i) {
-          // Case filter HTML simple/double quoted
-          case "HtmlFilterSimpleQuote":
-          case "HtmlFilterDoubleQuote":
-          case "HtmlDirective":
-          case "HtmlDirectivePluralLast":
-          case "HtmlDirectivePluralFirst":
-          case "JavascriptFilterSimpleQuote":
-          case "JavascriptFilterDoubleQuote":
-            // Match all occurences
-            lines = content.split('\n');
-            for (j = 0; j < lines.length; j += 1) {
+        lines = content.split('\n');
+        for (j = 0; j < lines.length; j += 1) {
+          switch (i) {
+            // Case filter HTML simple/double quoted
+            case "HtmlFilterSimpleQuote":
+            case "HtmlFilterDoubleQuote":
+            case "HtmlDirective":
+            case "HtmlDirectivePluralLast":
+            case "HtmlDirectivePluralFirst":
+            case "JavascriptFilterSimpleQuote":
+            case "JavascriptFilterDoubleQuote":
+              // Match all occurences
               var matches = lines[j].match(_regex);
               if (_.isArray(matches) && matches.length) {
                 // Through each matches, we'll execute regex to get translation key
@@ -123,14 +123,11 @@ module.exports = function (grunt) {
                   }
                 }
               }
-            }
-            break;
-          // Others regex
-          default:
-            lines = content.split('\n');
-            for (j = 0; j < lines.length; j += 1) {
+              break;
+            // Others regex
+            default:
               _extractTranslation(i, _regex, lines[j], file, j+1, results);
-            }
+          }
         }
       }
     }
