@@ -16,9 +16,7 @@ msgstr ""
 msgid "Directive, text in attribute"
 msgstr ""
 
-#: test/fixtures/example.html:2
-#: test/fixtures/example.js:1
-#: test/fixtures/example.js:3
+#: test/fixtures/example.html:2 test/fixtures/example.js:1 test/fixtures/example.js:3
 msgid "translate text"
 msgstr ""
 

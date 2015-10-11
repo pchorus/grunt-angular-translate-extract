@@ -73,8 +73,9 @@ module.exports = function (grunt) {
       for (var key in results) {
         if (results.hasOwnProperty(key)) {
           if (extractSourceFiles) {
+            output += '\n#:';
             _.forEach(results[key].sourceFiles, function (sourceFile) {
-              output += '\n#: ' + sourceFile.file + ':' + sourceFile.line;
+               output += ' ' + sourceFile.file + ':' + sourceFile.line;
             });
           }
           output += '\nmsgid "' + key + '"\n';
