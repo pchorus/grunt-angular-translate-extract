@@ -129,9 +129,15 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-### 0.4.0
+### 0.4.2
+Grunt 1.x support.
+
+### 0.4.1
 New option 'extractSourceFiles'.
 Breaking change: Source files are extracted to output pot file now. If you don't want that, you have to add `extractSourceFiles: false` to your options.
+
+### 0.4.0
+POT file contains all code references of a text, not only the first one.
 
 ### 0.3.0
 POT file header added to output file.
