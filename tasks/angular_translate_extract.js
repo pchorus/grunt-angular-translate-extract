@@ -42,7 +42,7 @@ module.exports = function (grunt) {
       HtmlFilterSimpleQuote: escapeRegExp(interpolation.startDelimiter) + '\\s*\'((?:\\\\.|[^\'\\\\])*)\'\\s*\\|\\s*translate(:.*?)?\\s*' + escapeRegExp(interpolation.endDelimiter),
       HtmlFilterDoubleQuote: escapeRegExp(interpolation.startDelimiter) + '\\s*"((?:\\\\.|[^"\\\\\])*)"\\s*\\|\\s*translate(:.*?)?\\s*' + escapeRegExp(interpolation.endDelimiter),
       // > can be used within attribute values. Therefore, > does only terminate the open tag when it appears outside of quotes.
-      HtmlDirective: '<[^>]*translate(?:[^\'">]*(?:"[^"]*"|\'[^\']*\')[^\'">]*)*>(.*)<\\/[^>]*>',
+      HtmlDirective: '<[^>]*translate(?:[^\'">]*(?:"[^"]*"|\'[^\']*\')[^\'">]*)*>(.*?)<\\/[^>]*>',
       HtmlDirectiveStandalone: 'translate="((?:\\\\.|[^"\\\\])*)"',
       HtmlDirectivePluralLast: 'translate="((?:\\\\.|[^"\\\\])*)".*angular-plural-extract="((?:\\\\.|[^"\\\\])*)"',
       HtmlDirectivePluralFirst: 'angular-plural-extract="((?:\\\\.|[^"\\\\])*)".*translate="((?:\\\\.|[^"\\\\])*)"',
