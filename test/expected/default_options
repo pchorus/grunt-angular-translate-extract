@@ -8,6 +8,10 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
+#: test/fixtures/example.html:14
+msgid "Open {name}"
+msgstr ""
+
 #: test/fixtures/example.html:4
 msgid "translate messageformat"
 msgstr ""
