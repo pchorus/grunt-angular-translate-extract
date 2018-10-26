@@ -57,6 +57,28 @@ msgid "Filter custom interpolation"
 msgstr ""
 ```
 
+#### extractSourceFilesLine
+Type: `Boolean`
+Default value: `true`
+
+Example: `extractSourceFilesLine: true`
+
+Decide wether the source files containing the text should be extracted or not.
+
+Output example with source files:
+```
+#: test/fixtures/example.html:8
+msgid "Filter custom interpolation"
+msgstr ""
+```
+
+Output example without source files lines:
+```
+#: test/fixtures/example.html
+msgid "Filter custom interpolation"
+msgstr ""
+```
+
 #### interpolation
 Type: `Object`
 Default value: `{ startDelimiter: '{{', endDelimiter: '}}' }`
