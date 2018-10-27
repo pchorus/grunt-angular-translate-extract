@@ -24,10 +24,15 @@ module.exports = function (grunt) {
     var files = this.files,
       interpolation = this.data.interpolation || {startDelimiter: '{{', endDelimiter: '}}'},
       customRegex = _.isArray(this.data.customRegex) ? this.data.customRegex : [],
-      extractSourceFiles = this.data.extractSourceFiles;
+      extractSourceFiles = this.data.extractSourceFiles,
+      extractSourceFilesLine = this.data.extractSourceFilesLine;
 
     if (extractSourceFiles === undefined) {
       extractSourceFiles = true;
+    }
+
+    if (extractSourceFilesLine === undefined) {
+      extractSourceFilesLine = true;
     }
 
     // Use to escape some char into regex patterns
@@ -76,7 +81,7 @@ module.exports = function (grunt) {
           if (extractSourceFiles) {
             output += '\n#:';
             _.forEach(results[key].sourceFiles, function (sourceFile) {
-               output += ' ' + sourceFile.file + ':' + sourceFile.line;
+               output += ' ' + sourceFile.file + (extractSourceFilesLine ? ':' + sourceFile.line : '');
             });
           }
           output += '\nmsgid "' + key + '"\n';
