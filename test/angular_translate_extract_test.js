@@ -62,5 +62,15 @@ exports.angular_translate_extract = {
     test.equal(actual, expected, 'should extract texts without source file info.');
 
     test.done();
-  }
+  },
+  no_source_file_line_output: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/no_source_file_line_output');
+    var expected = grunt.file.read('test/expected/no_source_file_line_output');
+    test.equal(actual, expected, 'should extract texts correctly.');
+
+    test.done();
+  },
+
 };

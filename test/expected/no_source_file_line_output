@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+#: test/fixtures/example.html
+msgid "Filter"
+msgstr ""
+
+#: test/fixtures/example.html
+msgid "Open {name}"
+msgstr ""
+
+#: test/fixtures/example.html
+msgid "translate messageformat"
+msgstr ""
+
+#: test/fixtures/example.html
+msgid "translate > " < ' if"
+msgstr ""
+
+#: test/fixtures/example.html
+msgid "translate ng-class"
+msgstr ""
+
+#: test/fixtures/example.html
+msgid "Directive, text in element's content"
+msgstr ""
+
+#: test/fixtures/example.html
+msgid "Directive, text in attribute"
+msgstr ""
+
+#: test/fixtures/example.html test/fixtures/example.js test/fixtures/example.js
+msgid "translate text"
+msgstr ""
+
+#: test/fixtures/example.js
+msgid "translate.instant"
+msgstr ""
